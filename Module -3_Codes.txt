@@ -1,0 +1,392 @@
+                                            EXERCISE-2
+
+==>Define a String Variable & use string method ‘endsWith’ to display the output.
+   
+String myString = 'Hello World!';
+Boolean endsWithWorld = myString.endsWith('World!');
+
+System.debug(endsWithWorld);
+
+==>Define 2 Date type variables, use Date method today() & addDays(30) to display the output.
+
+Date todayDate=Date.today();
+System.debug('Today date is '+ todayDate);
+
+Date newDate=todayDate.addDays(30);
+System.debug('Date after 30 days from today is '+ newDate);
+   
+==>Display the output of an Integer variable from string ‘10’ and then add 20 to it.
+
+String str='10';
+
+//converting string to integer
+Integer num=Integer.valueOf(str);
+System.debug(num);
+
+Integer result=num+20;
+System.debug('The result is '+result);
+
+==>Define a String Variable & use string method length() to display the output.
+
+String str ='Wipro';
+
+Integer len=str.length();
+System.debug('Length is '+len);
+
+==>Define a List of integer and display the output using add(), get(), set(), clear(), methods.
+
+List<Integer> score=new List<Integer>{50,75,0,80,90};
+System.debug(score);
+
+//add() method
+score.add(100);
+system.debug(score);
+
+//get() method
+Integer num=score.get(2);
+System.debug(num);
+
+//set() method
+score.set(3,40);
+   System.debug(score);
+
+//clear() method
+score.clear();
+System.debug(score);
+
+==>Use Execute Anonymous to define and execute the following code to display the value of x = 0 to 9.
+   
+Integer x=20;
+While(x>12){
+    for(integer x=0; x<10; x=x+1){
+        System.debug('Value of x is:'+x);
+    }
+    break;
+}
+
+                                     
+                                                 EXERCISE-3
+==>Answer the following in True Or False:
+
+Integer myluckyNumber = 15;
+Integer myUnluckyNumber = 7;
+if(myluckyNumber !=myUnluckyNumber +8){
+    System.debug('False');   
+}
+else{
+    System.debug('True');
+}
+
+                                                 Exercise-4
+
+==>Answer the following in True Or False:
+
+Boolean istrue=True;
+Boolean isfalse=False;
+System.debug(istrue || isfalse);
+
+                                                 Exercise-5
+==>Answer the following in True Or False:
+
+Date today = Date.today();
+Date tomorrow = Date.today().addDays(1);
+System.debug(today!=tomorrow);
+
+                                                Exercise-6
+==>Write a program and execute to demo the use of “If..else if...else”
+
+Integer Score = 100;
+System.debug('Score is: '+Score);
+
+if(Score == 100){
+    System.debug('Grade: A+');
+}
+else if(Score >= 90){
+    System.debug('Grade: A');
+}
+else if(Score >= 80){
+    System.debug('Grade: B');
+}
+else{
+    System.debug('Grade: Failed');
+}
+
+                                                Exercise-7
+==>Write a program to execute and demo the use of “Apex – for Loop”
+
+List<Billing__c> todayBillingList=[select Id,Name,Status__c from Billing__c where CreatedDate=Today];
+List<String>billingList=new List<String>();
+for(Billing__c billing:todayBillingList){
+    //String status=text(billing__c.Status__c);
+    if(billing.Status__c=='Paid'){
+        System.debug('Value of Current Record on which Loop is iterating is '+billing);
+        billingList.add(billing.Name);
+    }
+}
+if(billingList!=null){
+    System.debug('Billing Record are: '+billingList);
+}
+
+                                                Exercise-8
+==>Write a Class to demo the use of Constants in Apex
+
+Apex Class:-DiscountClass
+
+public class DiscountClass {
+    Decimal regularDiscount = 0.5;
+    Decimal finalPrice;
+    public Decimal calculateDiscount(Integer price){
+        finalPrice = price - (price*regularDiscount);
+        System.debug('finalPrice: '+finalPrice);
+        return finalPrice;
+    }
+}
+
+Execute Anonymous Widow:-
+
+DiscountClass x = new DiscountClass();
+x.calculateDiscount(1000);
+
+                                           Exercise-9
+==>Write a Class to demo the use of Interface in Apex
+
+public Interface InterfaceExample {
+    Double percentageDiscountTobeApplied();
+}
+
+==>Create an Apex Class to implement the Interface Class, Name = PremiumCustomer.
+
+public class PremiumCustomer implements InterfaceExample {
+    public Double percentageDiscountTobeApplied() {
+        return 0.3; // 30% discount
+    }
+
+}
+
+
+==>Create another Apex Class to implement the Interface Class, Name = normalCustomer
+
+public class NormalCustomer implements InterfaceExample {
+    public Double percentageDiscountTobeApplied() {
+        return 0.1; // 10% discount
+    }
+
+}
+
+==>Execute Anounymous window
+
+InterfaceExample customer = new NormalCustomer();
+Double discount = customer.percentageDiscountTobeApplied();
+System.debug('Discount: ' + discount);
+
+ 
+
+
+                                           Exercise-10
+==>Demo on DML Insert Operation Using Database methods
+
+public class CutomerRecordInsertation {
+    public void recInsertation() {
+        Customer__c customer = new Customer__c();
+        Customer.Name ='Wipro';
+        Customer.Customer_Type__c = 'Premium';
+        Insert Customer;
+        Id Customer_id = Customer.Id;
+        Billing__c[] billing = new List<Billing__c> {
+            new Billing__c(Status__c = 'Paid', Amount_Paid__c = 5000000, Customer__c = Customer_id),new Billing__c()};
+        Database.SaveResult[] l = Database.insert(billing,false);
+
+        for (database.SaveResult sr : l){
+            if(sr.isSuccess()) {
+                System.debug('Record was Inserted.Billing ID is: '+sr.getId());
+            }
+            else{
+                for(Database.Error e : sr.getErrors()){
+                    System.debug(e.getStatusCode() + ':' +e.getMessage());
+                    System.debug('Billing Fields Which Have Error: '+e.getFields());
+                }
+            }
+        }               
+    }
+}
+
+==>Execute Anyonumus window
+
+CutomerRecordInsertation b = new CutomerRecordInsertation();
+b.recInsertation();
+
+
+
+                                           Exercise-11
+==>Write and execute SOQL queries from Developer Console
+
+SELECT Id, Amount, StageName, Account.Name, Account.Industry, Account.Website
+FROM Opportunity
+WHERE Account.Industry = 'Energy' AND Account.AnnualRevenue > 5000
+
+                                           Exercise-12
+==>Write an Apex Trigger, Name = CustomerTrigger
+
+trigger CustomerTrigger on Customer__c (after update) {
+	List<Billing__c> billingRecords=new List<Billing__c>();
+    for(Customer__c customer:Trigger.new){
+        if(customer.Active__c==true && Trigger.oldmap.get(customer.id).Active__c==false){
+            Billing__c billing=new Billing__c();
+            billing.Status__c='Paid';
+            billing.Amount_Paid__c=1000000;
+            billing.Customer__c=customer.Id;
+            billingRecords.add(billing);
+        }
+    }
+    if(billingRecords!=null){
+        insert billingRecords;
+    }
+}
+                                           Exercise-13
+==>Write a Test Class for CustomerTrigger
+
+@Istest
+public class CustomerTriggerTest {
+    @istest public static void testCustomer(){
+        Customer__c customer=new Customer__c();
+        customer.Name='Tester-1';
+        customer.Active__c = false;
+        customer.Customer_Type__c='Premium';
+        insert customer;
+
+		List<Customer__c> c= [select Id, Active__c from Customer__c where id = :customer.Id];
+        for(Customer__c cu : c){
+            cu.Active__c = true;
+        }
+        
+        Test.startTest();
+        update c;
+        Test.stopTest();
+    }
+	//System.assertEquals([select Active__c from Customer__c where id= :customer.id]);
+}
+
+                                           Exercise-14
+==>Write an Apex Trigger, Name = DisqualifyTestLeads.
+
+trigger DisqualifyTestLeads on Lead (before insert,before update) {
+	List<Lead> leadList=new List<Lead>();
+    
+    
+    for(Lead ld:Trigger.new){
+        if(ld.FirstName==null){
+         ld.addError('Enter name');
+    	}
+        else{
+            if((ld.FirstName=='Test' && ld.FirstName.length()!=0) || (ld.LastName=='XYZ' && ld.LastName.length()!=0)){
+                System.debug(ld.FirstName+' '+ld.LastName+' '+'Will be Disqualified');
+                leadList.add(ld);
+                
+            }
+            for(Lead lead:leadList){
+                lead.Status='Disqualified';
+            }
+    	}
+	}
+}
+
+        
+
+                                           Exercise-15
+==>Write a Test Class for DisqualifyTestLeads
+
+@IsTest
+public class DisqualifyTestLeadsTest {
+    @isTest public static void DisqualifyTestMethod(){
+        Lead ld = new Lead();
+        ld.LastName = 'XYZ';
+        ld.Company = 'ABC';
+        
+        Test.startTest();
+        insert ld;
+        Test.stopTest();
+    }
+    
+    @isTest public static void DisqualifyTestMethod1(){
+        Lead ld = new Lead();
+        ld.FirstName = 'Test';
+        ld.LastName = 'XYZ';
+        ld.Company = 'ABC';
+        
+        Test.startTest();
+        insert ld;
+        Test.stopTest();
+    }
+    
+
+}
+
+
+
+                                           Exercise-16
+==>Create a Visualforce page which displays Opportunity fields as output fields.
+
+<apex:page standardController="Opportunity" lightningStylesheets="true">
+    <apex:sectionHeader title="Opportunity Detail" subtitle="{!Opportunity.Name}" />
+    <apex:pageBlock title="Opportunity Information">
+        <apex:pageBlockSection>
+            <apex:outputField value="{!Opportunity.Name}" />
+            <apex:outputField value="{!Opportunity.Amount}" />
+            <apex:outputField value="{!Opportunity.CloseDate}" />
+            <apex:outputField value="{!Opportunity.Account.Name}" />
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>
+
+                                           Exercise-17
+==>Create a Visualforce page which shows a list of Accounts linked to their record pages
+
+<apex:page standardController="Account" recordSetVar="accounts">
+    <ul>
+        <apex:repeat var="a" value="{!accounts}">
+            <li>
+                <apex:outputLink value="/{!a.Id}">{!a.Name}</apex:outputLink>
+            </li>
+        </apex:repeat>
+    </ul>
+</apex:page>
+
+                                            Exercise-18
+==>The custom controller Apex class must be named NewCaseListController and include the following:
+
+public with sharing class NewCaseListController {
+    
+    public List<Case> getNewCases() {
+        List<Case> cases = [SELECT Id, CaseNumber FROM Case WHERE Status = 'New'];
+        return cases;
+    }
+    
+}
+
+==>The NewCaseList Visualforce page must use an apex:repeat component, which is: Bound to newCases, Refers to the
+var attribute as case, bind an apex:outputLink component to the ID of the case.
+
+<apex:page controller="NewCaseListController">
+    <apex:pageBlock title="New Cases">
+        <apex:pageBlockTable value="{!newCases}" var="case">
+            <apex:column headerValue="Case Number">
+                <apex:outputLink value="/{!case.Id}">{!case.CaseNumber}</apex:outputLink>
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
